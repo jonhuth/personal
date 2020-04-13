@@ -8,6 +8,7 @@ body {
     font-size: 18px;
     color: #404040;
     background: #fff;
+    line-height: 1;
     height: 100vh; /* set to full height of height of screen*/ 
 }
 
