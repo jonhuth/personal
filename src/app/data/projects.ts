@@ -13,6 +13,11 @@ const projects: Project[] = [
       "MenuMixer helps you create personalized meal plans tailored to your preferences, with automated shopping lists and step-by-step instructions.",
     link: "https://menumixer.io",
   },
+  {
+    title: "Sovereignty Toolkit",
+    description: "A comprehensive toolkit for digital & financial sovereignty.",
+    link: "https://sovereigntoolkit.netlify.app/",
+  },
 ];
 
 export default projects;
