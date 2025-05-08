@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "capture-screenshots": "bun scripts/capture-screenshots.ts",
+    "build-with-screenshots": "bun scripts/capture-screenshots.ts && next build",
     "deploy": "vercel --prod"
   },
   "dependencies": {

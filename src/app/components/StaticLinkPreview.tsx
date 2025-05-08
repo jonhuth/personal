@@ -7,6 +7,7 @@ interface StaticLinkPreviewProps {
   className?: string;
   title?: string;
   description?: string;
+  onLoad?: () => void;
 }
 
 export default function StaticLinkPreview({
@@ -14,6 +15,7 @@ export default function StaticLinkPreview({
   className = "",
   title,
   description,
+  onLoad,
 }: StaticLinkPreviewProps) {
   // Extract domain for image lookup
   const domain = new URL(url).hostname.replace("www.", "");
@@ -29,6 +31,7 @@ export default function StaticLinkPreview({
           alt={`Preview of ${displayTitle}`}
           fill
           className="object-cover"
+          onLoad={() => onLoad && onLoad()}
           onError={(e) => {
             // Hide the image if it fails to load
             (e.target as HTMLImageElement).style.display = "none";

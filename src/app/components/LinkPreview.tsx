@@ -6,6 +6,9 @@ import Image from "next/image";
 interface LinkPreviewProps {
   url: string;
   className?: string;
+  onLoad?: () => void;
+  fallbackTitle?: string;
+  fallbackDescription?: string;
 }
 
 interface PreviewData {
@@ -17,7 +20,13 @@ interface PreviewData {
   type?: string;
 }
 
-export default function LinkPreview({ url, className = "" }: LinkPreviewProps) {
+export default function LinkPreview({
+  url,
+  className = "",
+  onLoad,
+  fallbackTitle,
+  fallbackDescription,
+}: LinkPreviewProps) {
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -65,6 +74,7 @@ export default function LinkPreview({ url, className = "" }: LinkPreviewProps) {
                 alt={previewData.title || `Preview of ${domain}`}
                 fill
                 className="object-cover"
+                onLoad={() => onLoad && onLoad()}
                 onError={(e) => {
                   // Fall back to local image if available
                   (
@@ -83,6 +93,7 @@ export default function LinkPreview({ url, className = "" }: LinkPreviewProps) {
                 alt={`Preview of ${domain}`}
                 fill
                 className="object-cover"
+                onLoad={() => onLoad && onLoad()}
                 onError={(e) => {
                   // Hide the image if it fails to load
                   (e.target as HTMLImageElement).style.display = "none";
@@ -92,14 +103,14 @@ export default function LinkPreview({ url, className = "" }: LinkPreviewProps) {
           </>
         )}
       </div>
-      {!loading && previewData && (
+      {!loading && (previewData || fallbackTitle) && (
         <div className="p-4">
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
-            {previewData.title || new URL(url).hostname}
+            {previewData?.title || fallbackTitle || new URL(url).hostname}
           </h3>
-          {previewData.description && (
+          {(previewData?.description || fallbackDescription) && (
             <p className="text-gray-600 text-sm line-clamp-2">
-              {previewData.description}
+              {previewData?.description || fallbackDescription}
             </p>
           )}
         </div>

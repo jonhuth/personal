@@ -4,29 +4,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaEnvelope, FaFileAlt, FaGithub, FaLinkedinIn } from "react-icons/fa";
-import LinkPreview from "./components/LinkPreview";
 import ResumeModal from "./components/ResumeModal";
-import StaticLinkPreview from "./components/StaticLinkPreview";
-import { isStaticHost } from "./config";
-import projects, { getProjectInfoByUrl } from "./data/projects";
+import ProjectCard from "./components/ProjectCard";
+import projects from "./data/projects";
 
 export default function Home() {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [previewsLoaded, setPreviewsLoaded] = useState<Record<string, boolean>>(
+    {}
+  );
 
-  // Function to render the appropriate preview component
-  const renderLinkPreview = (url: string) => {
-    if (isStaticHost) {
-      const projectInfo = getProjectInfoByUrl(url);
-      return (
-        <StaticLinkPreview
-          url={url}
-          title={projectInfo?.title}
-          description={projectInfo?.description}
-        />
-      );
-    } else {
-      return <LinkPreview url={url} />;
-    }
+  // Handler for when a project image loads
+  const handleImageLoad = (url: string) => {
+    setPreviewsLoaded((prev) => ({ ...prev, [url]: true }));
   };
 
   return (
@@ -101,90 +91,16 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <div
+              <ProjectCard
                 key={index}
-                className="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm"
-              >
-                {project.link && index === 0 ? (
-                  // First project (MenuMixer) with LinkPreview
-                  <>
-                    {renderLinkPreview(project.link)}
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {project.description}
-                      </p>
-                      <div className="flex gap-4">
-                        <Link
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800"
-                        >
-                          Visit Site
-                        </Link>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="h-48 relative">
-                      <div className="absolute inset-0 bg-gray-50 flex items-center justify-center text-gray-400">
-                        <span className="text-lg">Project Preview</span>
-                      </div>
-                      {/* Uncomment when you have actual images */}
-                      {/* <Image 
-                        src={project.image} 
-                        alt={project.title} 
-                        fill
-                        className="object-cover"
-                      /> */}
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {project.description}
-                      </p>
-                      <div className="flex gap-4">
-                        {project.link && (
-                          <Link
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800"
-                          >
-                            Visit Site
-                          </Link>
-                        )}
-                        {project.github && (
-                          <Link
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 hover:text-gray-800 flex items-center"
-                          >
-                            <FaGithub size={16} className="mr-1" />
-                            <span>Code</span>
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
+                project={project}
+                index={index}
+                onImageLoad={handleImageLoad}
+              />
             ))}
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="w-full py-8 text-center text-gray-500 mt-auto border-t border-gray-100">
-        <p>&copy; {new Date().getFullYear()} Jonathan Huth</p>
-      </footer>
     </main>
   );
 }
