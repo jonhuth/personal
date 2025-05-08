@@ -2,7 +2,12 @@
 const nextConfig = {
   // Not using static export for Vercel
   images: {
-    domains: ["menumixer.io"], // Add domains for remote images
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "menumixer.io",
+      },
+    ],
   },
   env: {
     NEXT_PUBLIC_STATIC_HOST: "false", // Disable static host mode

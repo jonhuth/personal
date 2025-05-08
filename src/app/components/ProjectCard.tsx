@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { Project } from "../data/projects";
 
 interface ProjectCardProps {
@@ -38,7 +38,7 @@ export default function ProjectCard({
   const CardWrapper = ({ children }: { children: React.ReactNode }) => {
     if (link) {
       return (
-        <div className="group bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md md:hover:shadow-md transition-all duration-300 relative h-full flex flex-col cursor-pointer">
+        <div className="group bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 relative h-full flex flex-col cursor-pointer">
           <Link
             href={link}
             target="_blank"
@@ -62,9 +62,8 @@ export default function ProjectCard({
 
   return (
     <CardWrapper>
-      <div className="relative h-48 w-full bg-gray-100 md:group-hover:brightness-95 transition-all duration-300">
-        {link && index === 0 && !loadError ? (
-          // First project with screenshot
+      <div className="relative h-56 w-full bg-gray-100 md:group-hover:brightness-95 transition-all duration-300">
+        {link && !loadError ? (
           <>
             <div
               className={`absolute inset-0 flex items-center justify-center z-10 ${
@@ -83,20 +82,14 @@ export default function ProjectCard({
               style={{ objectFit: "cover", objectPosition: "top center" }}
               onLoad={handleImageLoad}
               onError={handleImageError}
-              priority={index === 0}
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              priority={index < 2}
+              sizes="(max-width: 768px) 100vw, 600px"
             />
           </>
         ) : (
-          // Default placeholder for other projects
+          // Default placeholder
           <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
             <span className="text-gray-400 text-lg font-medium">{title}</span>
-          </div>
-        )}
-
-        {link && (
-          <div className="absolute top-2 right-2 bg-white/90 text-blue-600 rounded-full p-1.5 hidden md:group-hover:block transition-opacity z-20">
-            <FaExternalLinkAlt size={14} />
           </div>
         )}
       </div>
@@ -105,9 +98,7 @@ export default function ProjectCard({
         <h3 className="text-xl font-semibold text-gray-800 mb-2 md:group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
-          {description}
-        </p>
+        <p className="text-gray-600 mb-4 flex-grow">{description}</p>
 
         <div className="flex gap-3 mt-auto">
           {github && (

@@ -13,19 +13,6 @@ const projects: Project[] = [
       "MenuMixer helps you create personalized meal plans tailored to your preferences, with automated shopping lists and step-by-step instructions.",
     link: "https://menumixer.io",
   },
-  {
-    title: "Project 2",
-    description: "Description of project 2",
-    image: "/images/project2.jpg",
-    link: "https://project2.example.com",
-  },
-  {
-    title: "Project 3",
-    description: "Description of project 3",
-    image: "/images/project3.jpg",
-    link: "https://project3.example.com",
-    github: "https://github.com/jonhuth/project3",
-  },
 ];
 
 export default projects;
