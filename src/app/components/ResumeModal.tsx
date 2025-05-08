@@ -19,6 +19,23 @@ export default function ResumeModal({
     setMounted(true);
   }, []);
 
+  // Add escape key listener
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    // Add event listener for escape key
+    document.addEventListener("keydown", handleEscapeKey);
+
+    // Clean up
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, onClose]);
+
   if (!mounted || !isOpen) return null;
 
   return (
@@ -47,10 +64,13 @@ export default function ResumeModal({
           <a
             href={resumePath}
             download
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
+            className="group flex items-center gap-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2.5 px-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 font-medium"
           >
-            <FaDownload size={16} />
-            <span>Download</span>
+            <FaDownload
+              size={16}
+              className="group-hover:translate-y-0.5 transition-transform duration-200"
+            />
+            <span>Download Resume</span>
           </a>
         </div>
       </div>

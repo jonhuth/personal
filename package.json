@@ -6,13 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "capture-screenshots": "bun scripts/capture-screenshots.ts",
+    "deploy": "vercel --prod"
   },
   "dependencies": {
     "next": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@types/node": "^20.5.0",
@@ -22,6 +25,7 @@
     "eslint": "^8.47.0",
     "eslint-config-next": "^14.1.0",
     "postcss": "^8.4.28",
+    "puppeteer": "^22.6.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   }

@@ -1,14 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export", // Static export for GitHub Pages
+  // Not using static export for Vercel
   images: {
-    unoptimized: true, // Required for static export
+    domains: ["menumixer.io"], // Add domains for remote images
   },
-  // This ensures assets are loaded correctly from the root path on GitHub Pages
-  basePath: "",
-  // Add CNAME file to the output
-  async redirects() {
-    return [];
+  env: {
+    NEXT_PUBLIC_STATIC_HOST: "false", // Disable static host mode
   },
 };
 

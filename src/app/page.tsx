@@ -1,37 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FaEnvelope, FaFileAlt, FaGithub, FaLinkedinIn } from "react-icons/fa";
+import LinkPreview from "./components/LinkPreview";
 import ResumeModal from "./components/ResumeModal";
+import StaticLinkPreview from "./components/StaticLinkPreview";
+import { isStaticHost } from "./config";
+import projects, { getProjectInfoByUrl } from "./data/projects";
 
 export default function Home() {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
-  // Sample projects data - replace with your actual projects
-  const projects = [
-    {
-      title: "Project 1",
-      description: "Description of project 1",
-      image: "/images/project1.jpg", // Placeholder - add actual project images later
-      link: "https://project1.example.com",
-      github: "https://github.com/jonhuth/project1",
-    },
-    {
-      title: "Project 2",
-      description: "Description of project 2",
-      image: "/images/project2.jpg", // Placeholder - add actual project images later
-      link: "https://project2.example.com",
-    },
-    {
-      title: "Project 3",
-      description: "Description of project 3",
-      image: "/images/project3.jpg", // Placeholder - add actual project images later
-      link: "https://project3.example.com",
-      github: "https://github.com/jonhuth/project3",
-    },
-  ];
+  // Function to render the appropriate preview component
+  const renderLinkPreview = (url: string) => {
+    if (isStaticHost) {
+      const projectInfo = getProjectInfoByUrl(url);
+      return (
+        <StaticLinkPreview
+          url={url}
+          title={projectInfo?.title}
+          description={projectInfo?.description}
+        />
+      );
+    } else {
+      return <LinkPreview url={url} />;
+    }
+  };
 
   return (
     <main className="min-h-screen flex flex-col items-center bg-white">
@@ -107,47 +103,78 @@ export default function Home() {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm"
               >
-                <div className="h-48 relative">
-                  <div className="absolute inset-0 bg-gray-50 flex items-center justify-center text-gray-400">
-                    <span className="text-lg">Project Preview</span>
-                  </div>
-                  {/* Uncomment when you have actual images */}
-                  {/* <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill
-                    className="object-cover"
-                  /> */}
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
-                  <div className="flex gap-4">
-                    <Link
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800"
-                    >
-                      Visit Site
-                    </Link>
-                    {project.github && (
-                      <Link
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-gray-800 flex items-center"
-                      >
-                        <FaGithub size={16} className="mr-1" />
-                        <span>Code</span>
-                      </Link>
-                    )}
-                  </div>
-                </div>
+                {project.link && index === 0 ? (
+                  // First project (MenuMixer) with LinkPreview
+                  <>
+                    {renderLinkPreview(project.link)}
+                    <div className="p-4">
+                      <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        {project.description}
+                      </p>
+                      <div className="flex gap-4">
+                        <Link
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800"
+                        >
+                          Visit Site
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="h-48 relative">
+                      <div className="absolute inset-0 bg-gray-50 flex items-center justify-center text-gray-400">
+                        <span className="text-lg">Project Preview</span>
+                      </div>
+                      {/* Uncomment when you have actual images */}
+                      {/* <Image 
+                        src={project.image} 
+                        alt={project.title} 
+                        fill
+                        className="object-cover"
+                      /> */}
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        {project.description}
+                      </p>
+                      <div className="flex gap-4">
+                        {project.link && (
+                          <Link
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800"
+                          >
+                            Visit Site
+                          </Link>
+                        )}
+                        {project.github && (
+                          <Link
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-600 hover:text-gray-800 flex items-center"
+                          >
+                            <FaGithub size={16} className="mr-1" />
+                            <span>Code</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
