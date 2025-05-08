@@ -1,9 +1,14 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEnvelope, FaFileAlt, FaGithub, FaLinkedinIn } from "react-icons/fa";
+import ResumeModal from "./components/ResumeModal";
 
 export default function Home() {
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+
   // Sample projects data - replace with your actual projects
   const projects = [
     {
@@ -71,17 +76,22 @@ export default function Home() {
             <FaGithub size={20} />
             <span>GitHub</span>
           </Link>
-          <Link
-            href="/jonathan_huth_resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => setIsResumeModalOpen(true)}
             className="flex items-center gap-2 py-2 px-4 hover:text-blue-600 transition-colors"
           >
             <FaFileAlt size={20} />
             <span>Resume</span>
-          </Link>
+          </button>
         </div>
       </section>
+
+      {/* Resume Modal */}
+      <ResumeModal
+        isOpen={isResumeModalOpen}
+        onClose={() => setIsResumeModalOpen(false)}
+        resumePath="/jonathan_huth_resume.pdf"
+      />
 
       {/* Divider */}
       <div className="w-full max-w-4xl mx-auto border-t border-gray-100 my-4"></div>

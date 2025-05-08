@@ -1,43 +1,45 @@
-# Dependency directories
-node_modules/
-vendor/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Environment files
-.env
-.env.local
-.env.*.local
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Build outputs
-dist/
-build/
-out/
+# testing
+/coverage
 
-# IDE and editor files
-.idea/
-.vscode/
-*.swp
-*.swo
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
 .DS_Store
+*.pem
 
-# Log files
-*.log
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# Cache directories
-.cache/
-.npm/
-.eslintcache
+# env files
+.env*
+!.env.example
 
-# Test coverage
-coverage/
+# vercel
+.vercel
 
-# Optional: Database files
-*.sqlite
-*.db
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
-# Optional: Compiled files
-*.class
-*.pyc
-__pycache__/
+# repomix
+repomix-output.xml
