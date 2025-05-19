@@ -52,7 +52,7 @@ export default function Home() {
           </div>
 
           <p className="text-gray-600 mb-8 text-center lg:text-left">
-            Software Engineer building products people love
+            Software Engineer building useful tools for people
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-5 text-gray-700 mb-8">
