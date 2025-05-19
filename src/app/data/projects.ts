@@ -18,6 +18,12 @@ const projects: Project[] = [
     description: "A comprehensive toolkit for digital & financial sovereignty.",
     link: "https://sovereigntoolkit.netlify.app/",
   },
+  {
+    title: "Resy Booking Bot",
+    description:
+      "A bot that automates reservation bookings on Resy and other restaurant booking platforms, securing tables at your favorite restaurants effortlessly.",
+    image: "/images/resy-booking-bot-canvas.png",
+  },
 ];
 
 export default projects;

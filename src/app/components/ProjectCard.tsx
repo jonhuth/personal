@@ -15,18 +15,17 @@ export default function ProjectCard({
   index,
   onImageLoad,
 }: ProjectCardProps) {
-  const { title, description, link, github } = project;
+  const { title, description, link, github, image } = project;
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loadError, setLoadError] = useState(false);
 
-  // Generate the image URL only once
-  const imageUrl = link ? `/images/previews/${new URL(link).hostname}.jpg` : "";
+  // Use the image field if present, otherwise fall back to the generated imageUrl
+  const displayImageUrl =
+    image || (link ? `/images/previews/${new URL(link).hostname}.jpg` : "");
 
   const handleImageLoad = () => {
-    if (link && !imageLoaded) {
-      setImageLoaded(true);
-      onImageLoad && onImageLoad(link);
-    }
+    setImageLoaded(true);
+    if (link) onImageLoad && onImageLoad(link);
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -63,7 +62,7 @@ export default function ProjectCard({
   return (
     <CardWrapper>
       <div className="relative h-56 w-full bg-gray-100 md:group-hover:brightness-95 transition-all duration-300">
-        {link && !loadError ? (
+        {displayImageUrl && !loadError ? (
           <>
             <div
               className={`absolute inset-0 flex items-center justify-center z-10 ${
@@ -73,7 +72,7 @@ export default function ProjectCard({
               <div className="w-8 h-8 border-t-2 border-blue-500 rounded-full animate-spin"></div>
             </div>
             <Image
-              src={imageUrl}
+              src={displayImageUrl}
               alt={`Preview of ${title}`}
               fill
               className={`object-cover ${
